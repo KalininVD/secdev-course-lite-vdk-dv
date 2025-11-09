@@ -1,4 +1,4 @@
-.PHONY: venv deps init run test ci test-s06 ci-s06
+.PHONY: venv deps init run test ci ci-s06
 
 PY?=python
 
@@ -21,8 +21,10 @@ ci:
 	mkdir -p EVIDENCE/S08
 	pytest --junitxml=EVIDENCE/S08/test-report.xml -q
 
-test-s06:
+ci-s06:
+	$(PY) -m venv .venv
+	# для linux нужно заменить ".venv\scripts\" на ".venv/bin/"
+	.venv\scripts\pip install -r requirements.txt
+	.venv\scripts\python scripts/init_db.py
 	mkdir -p EVIDENCE/S06
-	pytest --junitxml=EVIDENCE/S06/test-report.xml -q
-
-ci-s06: deps init test-s06
+	.venv\scripts\pytest --junitxml=EVIDENCE/S06/test-report.xml -q
