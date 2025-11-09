@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from .models import LoginRequest
-from .db import query, query_one_params
+from .db import query, query_one_params, query_params
 
 app = FastAPI(title="secdev-seed-s06-s08")
 templates = Jinja2Templates(directory="app/templates")
@@ -23,10 +23,13 @@ def echo(request: Request, msg: str | None = None):
 def search(q: str | None = None):
     # SQLi: намеренно подставляем строку без параметров
     if q:
-        sql = f"SELECT id, name, description FROM items WHERE name LIKE '%{q}%'"
+        sql = "SELECT id, name, description FROM items WHERE name LIKE ?"
+        pattern = f"%{q}%"
+        items = query_params("SELECT id, name, description FROM items WHERE name LIKE ?", (pattern,))
     else:
         sql = "SELECT id, name, description FROM items LIMIT 10"
-    return JSONResponse(content={"items": query(sql)})
+        items = query(sql)
+    return JSONResponse(content={"items": items})
 
 @app.post("/login")
 def login(payload: LoginRequest):
