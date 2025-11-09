@@ -17,7 +17,7 @@ def index(request: Request, msg: str | None = None):
 
 @app.get("/echo", response_class=HTMLResponse)
 def echo(request: Request, msg: str | None = None):
-    return templates.TemplateResponse("index.html", {"request": request, "message": msg or ""})
+    return templates.TemplateResponse(request, "index.html", {"message": msg})
 
 @app.get("/search")
 def search(q: str | None = Query(default=None, min_length=1, max_length=32)):
