@@ -1,5 +1,4 @@
-
-.PHONY: venv deps init run test ci
+.PHONY: venv deps init run test ci test-s06
 
 PY?=python
 
@@ -21,3 +20,7 @@ test:
 ci:
 	mkdir -p EVIDENCE/S08
 	pytest --junitxml=EVIDENCE/S08/test-report.xml -q
+
+test-s06:
+	mkdir -p EVIDENCE/S06
+	pytest --junitxml=EVIDENCE/S06/test-report.xml -q
