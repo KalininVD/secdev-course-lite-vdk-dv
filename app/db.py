@@ -20,3 +20,8 @@ def query_one(sql: str) -> Optional[Dict[str, Any]]:
     with get_conn() as conn:
         row = conn.execute(sql).fetchone()
         return dict(row) if row else None
+
+def query_one_params(sql: str, params: tuple):
+    with get_conn() as conn:
+        row = conn.execute(sql, params).fetchone()
+        return dict(row) if row else None
